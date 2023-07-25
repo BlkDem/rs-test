@@ -3,7 +3,7 @@
     <h4>Количество отзывов (от)</h4>
     <div class="search-group-input" >
         <b-form-input class="search-input"
-          placeholder="Количество отзывов"
+          placeholder="Например, от 10"
           v-model="reviewCount"
           size="lg"
           type="number"

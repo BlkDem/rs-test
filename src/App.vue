@@ -6,6 +6,7 @@
         <TypeSelect />
         <StarSelect />
         <ReviewCount />
+        <PriceRange />
       </b-col>
       <b-col md="8">
         hotels
@@ -20,6 +21,7 @@ import CountrySearch from './components/CountrySearch.vue';
 import TypeSelect from './components/TypeSelect.vue';
 import StarSelect from './components/StarSelect.vue';
 import ReviewCount from './components/ReviewCount.vue';
+import PriceRange from './components/PriceRange.vue';
 
 export default {
   name: 'App',
@@ -28,6 +30,7 @@ export default {
     TypeSelect,
     StarSelect,
     ReviewCount,
+    PriceRange,
   },
 
   created () {
