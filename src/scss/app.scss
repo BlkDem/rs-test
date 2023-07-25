@@ -1,0 +1,11 @@
+$body-bg: #fff;
+$body-color: #333;
+$form-selected-color: #00BB6D;
+
+@import "~bootstrap/scss/bootstrap";
+
+.form-check-input:checked {
+  background-color: $form-selected-color;
+  border-color: $form-selected-color;
+}
+
