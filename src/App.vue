@@ -3,6 +3,9 @@
     <b-row>
       <b-col md="4">
         <CountrySearch />
+        <TypeSelect />
+        <StarSelect />
+        <ReviewCount />
       </b-col>
       <b-col md="8">
         hotels
@@ -14,11 +17,17 @@
 <script>
 
 import CountrySearch from './components/CountrySearch.vue';
+import TypeSelect from './components/TypeSelect.vue';
+import StarSelect from './components/StarSelect.vue';
+import ReviewCount from './components/ReviewCount.vue';
 
 export default {
   name: 'App',
   components: {
-    CountrySearch
+    CountrySearch,
+    TypeSelect,
+    StarSelect,
+    ReviewCount,
   },
 
   created () {

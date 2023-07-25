@@ -1,15 +1,19 @@
 <template>
-  <div>
+  <div class="filter-panel">
     <h4>Страна</h4>
     <div class="search-group-input" >
         <i class="bi bi-search search-icon"></i>
-        <b-form-input class="search-input" placeholder="Поиск стран" v-model="searchText"></b-form-input>
+        <b-form-input class="search-input"
+          placeholder="Поиск стран"
+          v-model="searchCountry"
+          size="lg"
+        >
+
+        </b-form-input>
     </div>
 
     <div class="serach-checkbox-list">
-      <b-form-group
-
-    >
+    <b-form-group style="margin-bottom: 0!important;">
       <b-form-checkbox
         v-for="country in countries"
         v-model="selectedCountries"
@@ -22,7 +26,6 @@
       </b-form-checkbox>
     </b-form-group>
     </div>
-    {{ selectedCountries }}
   </div>
 
 
@@ -32,16 +35,16 @@
   export default {
     data() {
       return {
-        searchText: '',
+        searchCountry: '',
         selectedCountries: [],
         countries: this.$store.state.countries,
       }
     },
 
     watch: {
-      searchText() {
+      searchCountry() {
         this.countries = Array.from(this.$store.state.countries).filter(
-          country => (country.toLowerCase().indexOf(this.searchText.toLowerCase()) >= 0)
+          country => (country.toLowerCase().indexOf(this.searchCountry.toLowerCase()) >= 0)
          )
       },
 
@@ -67,14 +70,11 @@
   border-radius: 8px;
 }
 
-.form-check-input:checked {
-    background-color: red;
-    border-color: $form-selected-color;
-}
+
 .search-icon {
   position: absolute;
-  left: 12px;
-  top: 8px;
+  left: 1.5rem;
+  top: .75rem;
   z-index: 2;
 }
 
@@ -90,14 +90,23 @@
 .serach-checkbox-list {
   border: 1px solid #ddd;
   @include border-radius;
-  padding: 12px 12px;
+  padding: 1rem 1.5rem;
+  height: 202px;
+  overflow-y: auto;
 }
 
 .search-input {
   @include border-radius;
-  padding-left: 2.5rem;
+  padding-left: 3rem;
 }
 
+.form-check {
+  margin-bottom: .5rem;
+}
+
+fieldset {
+  margin-top: .5rem;
+}
 
 
 </style>

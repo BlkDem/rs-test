@@ -8,7 +8,7 @@ export default createStore({
       countries: [],
       stars: [],
       types: [],
-      reviews: 0,
+      reviewCount: 0,
       priceMin: 0,
       priceMax: 0
     },
@@ -49,8 +49,8 @@ export default createStore({
       state.currentFilters.types = types;
     },
 
-    SET_REVIEW_FILTER (state, reviews) {
-      state.currentFilters.reviews = reviews;
+    SET_REVIEW_COUNT_FILTER (state, reviewCount) {
+      state.currentFilters.reviewCount = reviewCount;
     },
 
     SET_PRICE_FILTER (state, priceMin, priceMax) {
@@ -70,12 +70,30 @@ export default createStore({
     prepareFilters(context) {
       const countries = context.state.hotels.map(item => item.country);
       context.state.countries = new Set(countries)
-      // console.log(context.state.countries);
+
+      const types = context.state.hotels.map(item => item.type);
+      context.state.types = new Set(types)
+
+      const stars = context.state.hotels.map(item => item.stars);
+      context.state.stars = new Set(stars)
+
     },
 
     setCountriesFilter(context, countries) {
       context.commit('SET_COUNTRY_FILTER', countries);
-    }
+    },
+
+    setTypesFilter(context, types) {
+      context.commit('SET_TYPE_FILTER', types);
+    },
+
+    setStarsFilter(context, stars) {
+      context.commit('SET_STAR_FILTER', stars);
+    },
+
+    setReviewCountFilter(context, reviewCount) {
+      context.commit('SET_REVIEW_COUNT_FILTER', reviewCount);
+    },
 
 
   },

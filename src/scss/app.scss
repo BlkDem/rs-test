@@ -1,5 +1,6 @@
 $body-bg: #fff;
 $body-color: #333;
+$placeholder-color: #aaa;
 $form-selected-color: #00BB6D;
 
 @import "~bootstrap/scss/bootstrap";
@@ -7,10 +8,38 @@ $form-selected-color: #00BB6D;
 
 h4, .h4 {
   font-weight: 700;
+  font-size: 1rem;
+  margin-top: 2rem;
+}
+
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: $placeholder-color;
+  opacity: 1; /* Firefox */
+  font-size: 1rem;
+}
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: $placeholder-color;
+}
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+  color: $placeholder-color;
 }
 
 .form-check-input:checked {
   background-color: $form-selected-color;
   border-color: $form-selected-color;
+}
+
+.form-check-input:focus {
+  border-color: lighten($form-selected-color, 50);
+  box-shadow: 0 0 0 0.25rem rgba(111, 230, 168, 0.25);
+}
+
+.form-control:focus {
+  border-color: lighten($form-selected-color, 50);
+  box-shadow: 0 0 0 0.25rem rgba(111, 230, 168, 0.25);
+}
+
+.filter-panel {
+  max-width: 325px;
 }
 
