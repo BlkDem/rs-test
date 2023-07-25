@@ -7,20 +7,7 @@
       <div class="article-top-head">
         <div class="article-top-subhead">
           <span class="hotelStars">
-            <vue3-star-ratings style="display: inline-block;"
-              v-model="value"
-              starSize="16"
-              starColor="#ff9800"
-              inactiveColor="#333333"
-              controlBg="#2e5090"
-              controlColor="#ffffff"
-              controlSize="24"
-              :numberOfStars="5"
-              :step="0.5"
-              :showControl="false"
-              :disableClick="false"
-            />
-
+            <HotelStars :value="hotel?.stars"/>
           </span>
           <span class="hotelType">
             {{ hotel?.type }}
@@ -42,21 +29,34 @@
           Цена за 1 ночь
         </div>
       </div>
+      <b-row class="py-4">
+        <b-col md="8">{{ hotel?.description }}</b-col>
+        <b-col md="4" class="text-end">
+          <button class="booking-button" @click="orderHotel(id)">
+            <i class="bi bi-calendar4"></i>
+            Забронировать
+          </button>
+        </b-col>
+      </b-row>
     </article>
 </template>
 
 <script>
 import Ending from '../helpers/ReviewWordEnding';
+import HotelStars from './HotelStars.vue';
 import { defineComponent } from "vue";
-import vue3starRatings from "vue3-star-ratings";
 
 export default defineComponent({
 
-  // components: [
-  //   vue3starRatings
-  // ],
+  components: {
+    HotelStars
+  },
 
   props: {
+    id: {
+      type: Number,
+      default: 0
+    },
     hotel: undefined,
   },
 
@@ -64,12 +64,16 @@ export default defineComponent({
     getEnding(num) {
       if (!num) return '';
       return Ending.reviewWordEnding(num);
+    },
+
+    orderHotel(id) {
+      console.log(id)
     }
   },
 
-//   // data: () => ({
-//   //   value: 4,
-//   // }),
+  data: () => ({
+    stars: [],
+  }),
 });
 
 </script>
@@ -101,6 +105,15 @@ h3, .h3 {
 
 span {
   margin-right: .25rem;
+}
+
+.booking-button {
+  width: 180px;
+  height: 40px;
+  color: #6A53F5;
+  border: 0;
+  border-radius: .75rem;
+  font-size: 14px;
 }
 
 </style>

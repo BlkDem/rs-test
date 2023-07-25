@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <b-row>
-      <b-col md="4">
+      <b-col md="3">
         <aside>
           <CountrySearch />
           <TypeSelect />
@@ -17,11 +17,12 @@
             </div>
         </aside>
       </b-col>
-      <b-col md="8">
+      <b-col md="9">
         <main>
           <section name="hotel-list">
             <HotelBlock v-for="(item, key) in hotels"
               :hotel="item"
+              :id="key"
               :key="key"
             />
           </section>
