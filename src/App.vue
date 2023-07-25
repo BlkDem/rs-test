@@ -2,14 +2,25 @@
   <b-container>
     <b-row>
       <b-col md="4">
-        <CountrySearch />
-        <TypeSelect />
-        <StarSelect />
-        <ReviewCount />
-        <PriceRange />
+        <aside>
+          <CountrySearch />
+          <TypeSelect />
+          <StarSelect />
+          <ReviewCount />
+          <PriceRange />
+          <div class="filter-panel py-4 mt-4">
+            <b-button size="lg" class="btn-apply w-100 p-2 mb-3">Применить фильтр</b-button>
+            <b-button size="lg" class="btn-cancel w-100 p-2">
+              <i class="bi bi-x cancel-icon"></i>
+              Очистить фильтр
+            </b-button>
+            </div>
+        </aside>
       </b-col>
       <b-col md="8">
-        hotels
+        <main>
+
+        </main>
       </b-col>
     </b-row>
   </b-container>
@@ -42,13 +53,25 @@ export default {
     hotels () {
         return this.$store.state.hotels;
     },
-    // Остальные вычисляемые свойства
-    // filteredProducts () { ... },
-    // sortKey () { ... },
-    // sortDir () { ... }
   }
 }
 </script>
 
-<style>
+<style scoped>
+button {
+  font-size: 1rem;
+  height: 56px;
+  border-radius: 15px;
+  font-weight: 700;
+  color: #3A3A3A;
+}
+
+.btn-apply {
+  background-color: #6A53F5;
+  color: white;
+}
+.btn-cancel {
+  background-color: transparent;
+  color: #333;
+}
 </style>
