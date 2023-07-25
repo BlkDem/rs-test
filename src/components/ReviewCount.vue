@@ -46,10 +46,4 @@
 
 @import '../scss/app.scss';
 
-@mixin border-radius {
-  border-radius: 8px;
-}
-
-
-
 </style>

@@ -9,13 +9,14 @@ export default createStore({
       stars: [],
       types: [],
       reviewCount: 0,
-      priceMin: 0,
-      priceMax: 0
+      priceRange: [],
     },
 
     hotels: [],
     countries: [],
-    types: []
+    types: [],
+
+    priceRange: [],
   },
 
   getters: {
@@ -53,9 +54,8 @@ export default createStore({
       state.currentFilters.reviewCount = reviewCount;
     },
 
-    SET_PRICE_FILTER (state, priceMin, priceMax) {
-      state.currentFilters.priceMin = priceMin;
-      state.currentFilters.priceMax = priceMax;
+    SET_PRICE_RANGE_FILTER (state, priceRange) {
+      state.currentFilters.priceRange = priceRange;
     },
   },
   actions: {
@@ -68,6 +68,7 @@ export default createStore({
     },
 
     prepareFilters(context) {
+
       const countries = context.state.hotels.map(item => item.country);
       context.state.countries = new Set(countries)
 
@@ -76,6 +77,11 @@ export default createStore({
 
       const stars = context.state.hotels.map(item => item.stars);
       context.state.stars = new Set(stars)
+
+      const priceArray = context.state.hotels.map(item => Math.ceil(item.min_price)).sort();
+      const priceRangeMin = priceArray[0];
+      const priceRangeMax = priceArray.at(-1);
+      context.state.priceRange = [priceRangeMin, priceRangeMax];
 
     },
 
@@ -93,6 +99,10 @@ export default createStore({
 
     setReviewCountFilter(context, reviewCount) {
       context.commit('SET_REVIEW_COUNT_FILTER', reviewCount);
+    },
+
+    setPriceRangeFilter(context, priceRange) {
+      context.commit('SET_PRICE_RANGE_FILTER', priceRange);
     },
 
 

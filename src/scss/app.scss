@@ -6,21 +6,30 @@ $form-selected-color: #00BB6D;
 @import "~bootstrap/scss/bootstrap";
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
+#app {
+  font-family: PT Sans, Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  margin-top: 60px;
+  margin-bottom: 100px;
+}
+
 h4, .h4 {
   font-weight: 700;
   font-size: 1rem;
   margin-top: 2rem;
 }
 
-.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+.form-control::placeholder {
   color: $placeholder-color;
-  opacity: 1; /* Firefox */
+  opacity: 1;
   font-size: 1rem;
 }
-.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+.form-control:-ms-input-placeholder {
   color: $placeholder-color;
 }
-.form-control::-ms-input-placeholder { /* Microsoft Edge */
+.form-control::-ms-input-placeholder {
   color: $placeholder-color;
 }
 
@@ -37,6 +46,10 @@ h4, .h4 {
 .form-control:focus {
   border-color: lighten($form-selected-color, 50);
   box-shadow: 0 0 0 0.25rem rgba(111, 230, 168, 0.25);
+}
+
+.form-control-lg {
+  font-size: 1rem;
 }
 
 .filter-panel {
