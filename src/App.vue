@@ -19,7 +19,12 @@
       </b-col>
       <b-col md="8">
         <main>
-
+          <section name="hotel-list">
+            <HotelBlock v-for="(item, key) in hotels"
+              :hotel="item"
+              :key="key"
+            />
+          </section>
         </main>
       </b-col>
     </b-row>
@@ -33,6 +38,7 @@ import TypeSelect from './components/TypeSelect.vue';
 import StarSelect from './components/StarSelect.vue';
 import ReviewCount from './components/ReviewCount.vue';
 import PriceRange from './components/PriceRange.vue';
+import HotelBlock from './components/HotelBlock.vue';
 
 export default {
   name: 'App',
@@ -42,6 +48,7 @@ export default {
     StarSelect,
     ReviewCount,
     PriceRange,
+    HotelBlock,
   },
 
   created () {
@@ -58,6 +65,11 @@ export default {
 </script>
 
 <style scoped>
+
+main {
+  padding-top: 2.5rem;
+}
+
 button {
   font-size: 1rem;
   height: 56px;
