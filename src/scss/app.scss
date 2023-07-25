@@ -3,6 +3,11 @@ $body-color: #333;
 $form-selected-color: #00BB6D;
 
 @import "~bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+h4, .h4 {
+  font-weight: 700;
+}
 
 .form-check-input:checked {
   background-color: $form-selected-color;

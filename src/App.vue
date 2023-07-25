@@ -5,7 +5,7 @@
         <CountrySearch />
       </b-col>
       <b-col md="8">
-        34
+        hotels
       </b-col>
     </b-row>
   </b-container>
@@ -19,13 +19,28 @@ export default {
   name: 'App',
   components: {
     CountrySearch
+  },
+
+  created () {
+    this.$store.dispatch('getHotels');
+    this.$store.dispatch('prepareFilters');
+  },
+
+  computed: {
+    hotels () {
+        return this.$store.state.hotels;
+    },
+    // Остальные вычисляемые свойства
+    // filteredProducts () { ... },
+    // sortKey () { ... },
+    // sortDir () { ... }
   }
 }
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: PT Sans, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */

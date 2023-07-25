@@ -1,38 +1,29 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import store from './store'
-
+import axios from 'axios';
 import BootstrapVue3 from "bootstrap-vue-3";
+import { BootstrapIconsPlugin } from 'bootstrap-icons-vue';
 // import { BootstrapIconsPlugin } from 'bootstrap-icons-vue';
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue-3/dist/bootstrap-vue-3.css";
-
-/* import the fontawesome core */
-import { library } from '@fortawesome/fontawesome-svg-core'
-
-/* import font awesome icon component */
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-/* import specific icons */
-import { faUserSecret, faSearch } from '@fortawesome/free-solid-svg-icons'
-
-/* add icons to the library */
-library.add(faUserSecret)
-library.add(faSearch)
-
-import { BootstrapIconsPlugin } from 'bootstrap-icons-vue';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import './scss/app.scss';
+// import { library } from '@fortawesome/fontawesome-svg-core'
 
-// import { BootstrapVueIcons } from 'bootstrap-vue'
-// import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
+// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-createApp(App)
-  .use(store)
-  .use(BootstrapVue3)
-  // .use(BootstrapVueIcons)
-  .use(BootstrapIconsPlugin)
-  .component('font-awesome-icon', FontAwesomeIcon)
-  .mount('#app')
+// import { faUserSecret, faSearch } from '@fortawesome/free-solid-svg-icons'
+
+// library.add(faUserSecret)
+// library.add(faSearch)
+
+const app = createApp(App);
+  app.use(store)
+  app.use(BootstrapVue3)
+  app.use(BootstrapIconsPlugin)
+  // app.component('font-awesome-icon', FontAwesomeIcon)
+  app.config.globalProperties.axios=axios;
+  app.mount('#app')

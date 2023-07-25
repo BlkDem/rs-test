@@ -3,28 +3,26 @@
     <h4>Страна</h4>
     <div class="search-group-input" >
         <i class="bi bi-search search-icon"></i>
-        <b-form-input class="search-input" placeholder="Поиск стран"></b-form-input>
+        <b-form-input class="search-input" placeholder="Поиск стран" v-model="searchText"></b-form-input>
     </div>
 
     <div class="serach-checkbox-list">
       <b-form-group
-      label="Individual stacked checkboxes (default)"
-      v-slot="{ ariaDescribedby }"
+
     >
       <b-form-checkbox
-        v-for="option in options"
-        v-model="selected"
-        :key="option.value"
-        :value="option.value"
-        :aria-describedby="ariaDescribedby"
-        name="flavour-3a"
+        v-for="country in countries"
+        v-model="selectedCountries"
+        :key="country"
+        :value="country"
+        name="countryList"
         class="form-check-input"
       >
-        {{ option.text }}
+        {{ country }}
       </b-form-checkbox>
     </b-form-group>
     </div>
-    {{ selected }}
+    {{ selectedCountries }}
   </div>
 
 
@@ -34,15 +32,30 @@
   export default {
     data() {
       return {
-        selected: [], // Must be an array reference!
-        options: [
-          { text: 'Orange', value: 'orange' },
-          { text: 'Apple', value: 'apple' },
-          { text: 'Pineapple', value: 'pineapple' },
-          { text: 'Grape', value: 'grape' }
-        ]
+        searchText: '',
+        selectedCountries: [],
+        countries: this.$store.state.countries,
       }
+    },
+
+    watch: {
+      searchText() {
+        this.countries = Array.from(this.$store.state.countries).filter(
+          country => (country.toLowerCase().indexOf(this.searchText.toLowerCase()) >= 0)
+         )
+      },
+
+      selectedCountries() {
+        this.$store.dispatch('setCountriesFilter', this.selectedCountries);
+      }
+
+
+    },
+
+    methods: {
+
     }
+
   }
 </script>
 
