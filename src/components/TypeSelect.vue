@@ -23,7 +23,13 @@
     data() {
       return {
         selectedTypes: [],
-        types: this.$store.state.types,
+        // types: this.$store.state.types,
+      }
+    },
+
+    computed: {
+      types() {
+        return this.$store.state.types;
       }
     },
 

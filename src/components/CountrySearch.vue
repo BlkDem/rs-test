@@ -38,12 +38,21 @@
 </template>
 
 <script>
-  export default {
+
+import { defineComponent } from "vue";
+
+export default defineComponent({
     data() {
       return {
         searchCountry: '',
         selectedCountries: [],
-        countries: this.$store.state.countries,
+        // countries: this.$store.state.countries,
+      }
+    },
+
+    computed: {
+      countries() {
+        return this.$store.state.countries;
       }
     },
 
@@ -65,7 +74,7 @@
 
     }
 
-  }
+  });
 </script>
 
 <style scoped lang="scss">

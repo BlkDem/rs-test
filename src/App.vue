@@ -52,9 +52,9 @@ export default {
     HotelBlock,
   },
 
-  created () {
-    this.$store.dispatch('getHotels');
-    this.$store.dispatch('prepareFilters');
+  async beforeCreate () {
+    await this.$store.dispatch('getData');
+    // this.$store.dispatch('prepareFilters');
   },
 
   computed: {

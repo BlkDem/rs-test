@@ -2,7 +2,7 @@
   <article>
       <div class="article-top-head">
         <h3>{{ hotel?.name }}</h3>
-        <h3>{{ Math.ceil(hotel?.min_price).toLocaleString('ru-RU') }} ₽</h3>
+        <h3 class="hotel-price">{{ Math.ceil(hotel?.min_price).toLocaleString('ru-RU') }} ₽</h3>
       </div>
       <div class="article-top-head">
         <div class="article-top-subhead">
@@ -19,7 +19,7 @@
             {{ hotel?.reviews_amount }}
             {{ getEnding(hotel?.reviews_amount) }}
           </span>
-          <span>
+          <span class="location">
             <font-awesome-icon :icon="['fas', 'location-dot']" />
             {{ hotel?.country }}
           </span>
@@ -32,9 +32,14 @@
       <b-row class="py-4">
         <b-col md="8">{{ hotel?.description }}</b-col>
         <b-col md="4" class="text-end">
-          <button class="booking-button" @click="orderHotel(id)">
-            <i class="bi bi-calendar4"></i>
-            Забронировать
+          <button class="booking-button" :class="{
+              'booking-button-ordered': isHotelOrdered(id)
+              }" @click="orderHotel(id)">
+            <i class="bi" :class="{
+                'bi-calendar4': !isHotelOrdered(id),
+                'bi-check': isHotelOrdered(id)
+              }"></i>
+            {{ currentButtonCaption(id) }}
           </button>
         </b-col>
       </b-row>
@@ -68,12 +73,27 @@ export default defineComponent({
 
     orderHotel(id) {
       console.log(id)
+      // this.orderHotels.
+    },
+
+    isHotelOrdered(id) {
+      return true;
+      // this.orderHotels.
+    },
+
+    currentButtonCaption(id) {
+      return 'Забронировать';
     }
   },
 
   data: () => ({
-    stars: [],
+    orderedHotels: undefined,
   }),
+
+  created(){
+    this.orderedHotels = new Map([]);
+  },
+
 });
 
 </script>
@@ -99,21 +119,39 @@ h3, .h3 {
   display: inline-block;
 }
 .price-description {
-  font-size: 1rem;
+  font-size: .75rem;
   color: #333;
+  margin-top: -8px;
 }
+
 
 span {
   margin-right: .25rem;
+  font-size: 14px;
+  color: #868686;
+}
+
+.location {
+  color: #333;
 }
 
 .booking-button {
   width: 180px;
   height: 40px;
   color: #6A53F5;
+  background-color: #f0eefe;
   border: 0;
   border-radius: .75rem;
   font-size: 14px;
+}
+
+.booking-button-ordered {
+  color: #00bb6d;
+  background-color: #e5f8f0;
+}
+
+.hotel-price {
+  font-size: 25px;
 }
 
 </style>

@@ -10,7 +10,6 @@
         >
 
         </b-form-input>
-        {{ reviewCount }}
     </div>
 
   </div>

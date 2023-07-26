@@ -19,7 +19,7 @@
 
     <Slider showTooltip="drag"
       class="slider-green"
-      v-model="priceRange"
+      v-model="priceSelectedRange"
       :min="priceMin"
       :max="priceMax"
     ></Slider>
@@ -31,35 +31,70 @@
   import Slider from '@vueform/slider'
 
   export default {
+
     components: { Slider },
-    data: () => ({
-      priceRange: [20, 40],
-      priceMin: 0,
-      priceMax: 100,
-    }),
+
+    data() {
+      return {
+        priceSelectedRange: [20, 40],
+        priceMin: 0,
+        priceMax: 100,
+      }
+    },
 
     created() {
+
+      this.$store.dispatch('getPriceRange');
+
+
+      setTimeout(() => {
+        console.log('created', this.$store.state.priceRange);
+        this.priceSelectedRange = this.$store.state.priceRange;
+        this.priceMin = this.$store.state.priceRange[0] ?? 0;
+        this.priceMax = this.$store.state.priceRange[1] ?? 100;
+
+      }, 1000)
+    },
+
+    mounted() {
       // console.log(this.$store.state.priceRange);
-      this.priceRange = this.$store.state.priceRange;
-      this.priceMax = this.$store.state.priceRange[1];
-      this.priceMin = this.$store.state.priceRange[0];
+      this.priceSelectedRange = this.$store.state.priceRange ?? [0, 100];
+      // this.priceMax = 100;
+      // this.priceMin = this.$store.state.priceRange[0] ?? 0;
+      // console.log(this.$store.state);
+      // this.priceRange = this.$store.state.priceRange || [0, 100];
+      // setTimeout(() => {
+      //   console.log('mounted', this.$store.state.priceRange);
+      //   this.priceRange = this.$store.state.priceRange;
+      // }, 500)
+      // this.priceMin = this.$store.state.priceRange[0] ?? 0;
+      // this.priceMax = this.$store.state.priceRange[1] ?? 100;
+
     },
 
     computed: {
+
+      priceRange() {
+        this.priceMin = this.$store.getters.priceRange[0];
+        this.priceMax = this.$store.getters.priceRange[1];
+
+        return this.$store.getters.priceRange;
+      },
+
       priceRangeMin() {
-        return `от ${this.priceRange[0]} ₽`;
+        return `от ${this.priceSelectedRange[0]} ₽`;
       },
 
       priceRangeMax() {
-        return `до ${this.priceRange[1]} ₽`;
+        return `до ${this.priceSelectedRange[1]} ₽`;
       },
     },
 
-    watch: {
-      priceRange() {
-        this.$store.dispatch('setPriceRangeFilter', this.priceRange);
-      }
-    }
+    // watch: {
+    //   priceRange() {
+    //     this.$store.dispatch('setPriceRangeFilter', this.priceRange);
+    //   }
+    // }
 
   }
 

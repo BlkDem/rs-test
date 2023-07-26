@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import axios from 'axios';
-import createPersistedState from 'vuex-persistedstate'
+// import createPersistedState from 'vuex-persistedstate'
 
 export default createStore({
   state: {
@@ -20,22 +20,29 @@ export default createStore({
   },
 
   getters: {
-    priceMin: (state) => {
-      // return state.all.length
-      //     ? Number(_.minBy(state.all, 'price').price)
-      //     : 0;
-    },
 
-    // maxPrice: (state) => {
-    //     return state.all.length
-    //       ? Number(_.maxBy(state.all, 'price').price)
-    //       : 0;
-    // }
+    priceRange(state){
+      return state.priceRange;
+    }
+
   },
 
   mutations: {
     SET_HOTELS (state, hotels) {
       state.hotels = hotels;
+    },
+
+    SET_COUNTRIES (state, countries) {
+      state.countries = countries;
+    },
+
+    SET_TYPES (state, types) {
+      state.types = types;
+    },
+
+    SET_PRICE_RANGE (state, priceRange) {
+      state.priceRange = priceRange;
+      console.log('store: ', priceRange);
     },
 
     SET_COUNTRY_FILTER (state, countries) {
@@ -58,19 +65,44 @@ export default createStore({
       state.currentFilters.priceRange = priceRange;
     },
   },
+
   actions: {
-    async getHotels (context) {
+    async getData (context) {
 
       const response = await axios.get('/hotels.json');
       const hotels = response?.data?.hotels;
       context.commit('SET_HOTELS', hotels);
 
+      const countries = hotels.map(item => item.country);
+      const countryMap = new Set(countries)
+      context.commit('SET_COUNTRIES', countryMap);
+
+      const types = hotels.map(item => item.type);
+      const typeMap = new Set(types)
+      context.commit('SET_TYPES', typeMap);
+
+      const priceArray = hotels.map(item => Math.ceil(item.min_price)).sort();
+      const priceRangeMin = priceArray[0];
+      const priceRangeMax = priceArray.at(-1);
+      context.commit('SET_PRICE_RANGE', [priceRangeMin, priceRangeMax]);
+
     },
 
-    prepareFilters(context) {
+    getPriceRange(context) {
+      const priceArray = context.state.hotels.map(item => Math.ceil(item.min_price)).sort();
+      const priceRangeMin = priceArray[0];
+      const priceRangeMax = priceArray.at(-1);
 
-      const countries = context.state.hotels.map(item => item.country);
-      context.state.countries = new Set(countries)
+      context.commit('SET_PRICE_RANGE', [priceRangeMin, priceRangeMax]);
+      context.state.priceRange = [priceRangeMin, priceRangeMax];
+
+    },
+
+    prepareFilters(context, hotels) {
+
+      const countries = hotels.map(item => item.country);
+      const countryMap = new Set(countries)
+      context.commit('SET_COUNTRIES', countryMap);
 
       const types = context.state.hotels.map(item => item.type);
       context.state.types = new Set(types)
@@ -109,9 +141,10 @@ export default createStore({
   },
 
   modules: {
+
   },
 
   plugins:[
-    createPersistedState()
+    // createPersistedState()
   ],
 })
