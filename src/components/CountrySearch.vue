@@ -17,7 +17,7 @@
       <div class="serach-checkbox-list">
 
         <p class="no-items-plug" v-if="selectedCountriesList.length === 0">
-          К сожалению, по Вашему запросу ничего не найдено :(
+          К сожалению, по вашему запросу ничего не найдено :(
         </p>
 
         <b-form-group v-if="countries"
