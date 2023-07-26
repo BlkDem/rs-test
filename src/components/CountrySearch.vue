@@ -16,14 +16,14 @@
 
       <div class="serach-checkbox-list">
 
-        <p class="no-items-plug" v-if="selectedCountriesList.length === 0">
+        <p class="no-items-plug" v-if="countryList.length === 0">
           К сожалению, по вашему запросу ничего не найдено :(
         </p>
 
         <b-form-group v-if="countries"
           style="margin-bottom: 0!important;">
           <b-form-checkbox
-            v-for="country in selectedCountriesList"
+            v-for="country in countryList"
             v-model="selectedCountries"
             :key="country"
             :value="country"
@@ -56,21 +56,21 @@ export default defineComponent({
     return {
       searchCountry: '',
       selectedCountries: [],
-      selectedCountriesList: []
+      countryList: []
       // countries: this.$store.state.countries,
     }
   },
 
   computed: {
     countries() {
-      this.selectedCountriesList = this.$store.state.countries;
+      this.countryList = this.$store.state.countries;
       return this.$store.state.countries;
     }
   },
 
   watch: {
     searchCountry() {
-      this.selectedCountriesList = Array.from(this.$store.state.countries).filter(
+      this.countryList = Array.from(this.$store.state.countries).filter(
         country => (country.toLowerCase().indexOf(this.searchCountry.toLowerCase()) >= 0)
        )
     },
