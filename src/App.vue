@@ -81,36 +81,68 @@ export default {
   methods: {
 
     reviewCountFilter(hotels, currentFilters) {
+      console.log('reviews filter')
       return hotels.filter((el) => (el.reviews_amount >= currentFilters.reviewCount));
     },
 
     priceRangeFilter(hotels, currentFilters) {
+      console.log('price range filter')
       return hotels.filter((el) => (el.min_price >= currentFilters.priceRange[0]) && (el.min_price <= currentFilters.priceRange[1]));
     },
 
+    starsFilter(hotels, currentFilters) {
+      console.log('stars filter')
+      return hotels.filter((el) => (currentFilters.stars.includes(el.stars)));
+    },
+
+    typesFilter(hotels, currentFilters) {
+      console.log('types filter')
+      return hotels.filter((el) => (currentFilters.types.includes(el.type)));
+    },
+
+    countriesFilter(hotels, currentFilters) {
+      console.log('countries filter')
+      return hotels.filter((el) => (currentFilters.countries.includes(el.country)));
+    },
+
+
     applyFilter() {
 
-      console.log(this.$store.state.currentFilters);
       const currentFilters = this.$store.state.currentFilters;
       const notFilteredHotels = this.$store.state.notFilteredHotels;
+
+      this.filteredHotels = notFilteredHotels;
+
+      // console.log(currentFilters)
 
       //filter for reviews
       this.filteredHotels = (!currentFilters.reviewCount) ?
         this.filteredHotels
         :
-        this.reviewCountFilter(notFilteredHotels, currentFilters);
+        this.reviewCountFilter(this.filteredHotels, currentFilters);
 
       //filter for price
-      this.filteredHotels = (currentFilters.priceRange == [])?
+      this.filteredHotels = (currentFilters.priceRange === this.$store.state.priceRange)?
         this.filteredHotels
         :
         this.priceRangeFilter(this.filteredHotels, currentFilters);
 
-      //filter for stars
-      // this.filteredHotels = (currentFilters.priceRange == [])?
-      //   this.filteredHotels
-      //   :
-      //   this.priceRangeFilter(this.filteredHotels, currentFilters);
+      // filter for stars
+      this.filteredHotels = (currentFilters.stars.length > 0)?
+        this.starsFilter(this.filteredHotels, currentFilters)
+        :
+        this.filteredHotels;
+
+      // filter for types
+      this.filteredHotels = (currentFilters.types.length > 0)?
+        this.typesFilter(this.filteredHotels, currentFilters)
+        :
+        this.filteredHotels;
+
+      this.filteredHotels = (currentFilters.countries.length > 0)?
+        this.countriesFilter(this.filteredHotels, currentFilters)
+        :
+        this.filteredHotels;
 
       window.scrollTo(0, 0);
     },

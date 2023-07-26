@@ -8,7 +8,9 @@
           size="lg"
         >
       </b-form-input>
+
       <div class="min-max-separator"> - </div>
+
       <b-form-input class="price-range-max"  readonly
           :placeholder="priceRangeMax"
           v-model="priceRangeMax"

@@ -27,7 +27,7 @@
 
 .star-group {
   display: inline-block;
-  margin-right: 1rem;
+  margin-right: .25rem;
 }
 
 .star-element {
