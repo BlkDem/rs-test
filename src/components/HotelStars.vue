@@ -1,10 +1,7 @@
 <template>
   <div class="star-group">
-      <i class="bi bi-star-fill" :class="{'bi-filled': value > 0}" ></i>
-      <i class="bi bi-star-fill" :class="{'bi-filled': value > 1}" ></i>
-      <i class="bi bi-star-fill" :class="{'bi-filled': value > 2}" ></i>
-      <i class="bi bi-star-fill" :class="{'bi-filled': value > 3}" ></i>
-      <i class="bi bi-star-fill" :class="{'bi-filled': value > 4}" ></i>
+      <i v-for="(star, index) in starCount"
+        class="bi bi-star-fill" :class="{'bi-filled': value > index}" ></i>
   </div>
 
 
@@ -16,6 +13,11 @@
       value: {
         type: Number,
         default: 0
+      },
+
+      starCount: {
+        type: Number,
+        default: 5
       }
     }
   }

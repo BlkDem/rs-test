@@ -27,19 +27,17 @@
             />
           </section>
           <section name="paginator">
-            <!--     Loop through the pages array to display each page number       -->
-          <div class="text-center w-100 paginator" v-if="pages.length>1">
-            <button type="button" class="btn btn-sm btn-outline-secondary" v-if="page != 1" @click="page--">
-              &#171; Назад
-            </button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" :class="{'btn-apply': page === pageNumber}"
-              v-for="pageNumber in pages.slice(page-1, page+5)"
-              @click="page = pageNumber"> {{ pageNumber }}
-            </button>
-            <button type="button" @click="page++" v-if="page < pages.length" class="btn btn-sm btn-outline-secondary">
-               Далее &#187;
-            </button>
-          </div>
+            <div class="text-center w-100 paginator" v-if="pages.length>1">
+              <button type="button" class="btn btn-sm btn-outline-secondary" v-if="page != 1" @click="page--">
+                <span class="mx-1">&#171;</span> Назад
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" :class="{'btn-apply': page === pageNumber}"
+                v-for="pageNumber in pages.slice(page - 1, page + 5)" @click="page = pageNumber"> {{ pageNumber }}
+              </button>
+              <button type="button" @click="page++" v-if="page < pages.length" class="btn btn-sm btn-outline-secondary">
+                Далее <span class="mx-1">&#187;</span>
+              </button>
+            </div>
           </section>
         </main>
 
@@ -225,6 +223,10 @@ button {
   min-width: 4rem;
   margin: .25rem;
   padding: 1rem;
+}
+
+button span {
+  font-size: 1rem;
 }
 .btn-apply {
   background-color: #6A53F5;

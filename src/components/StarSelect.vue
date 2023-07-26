@@ -13,6 +13,7 @@
         class="form-check-input"
       >
         {{ star }}
+        <!-- <hotel-stars :starCount="star" :value="star"/> -->
       </b-form-checkbox>
     </b-form-group>
     </div>
@@ -23,7 +24,14 @@
 
 <script>
 
+import HotelStars from './HotelStars.vue';
+
   export default {
+
+    components: {
+      HotelStars
+    },
+
     data() {
       return {
         selectedStars: [],
