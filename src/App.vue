@@ -20,15 +20,30 @@
       <b-col md="9">
         <main>
           <section name="hotel-list">
-            <HotelBlock v-for="(item, key) in filteredHotels"
+            <HotelBlock v-for="(item, key) in displayedHotels"
               :hotel="item"
               :id="key"
               :key="key"
             />
           </section>
+          <section name="paginator">
+            <!--     Loop through the pages array to display each page number       -->
+          <div class="text-center w-100 paginator" v-if="pages.length>1">
+            <button type="button" class="btn btn-sm btn-outline-secondary" v-if="page != 1" @click="page--">
+              &#171; Назад
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" :class="{'btn-apply': page === pageNumber}"
+              v-for="pageNumber in pages.slice(page-1, page+5)"
+              @click="page = pageNumber"> {{ pageNumber }}
+            </button>
+            <button type="button" @click="page++" v-if="page < pages.length" class="btn btn-sm btn-outline-secondary">
+               Далее &#187;
+            </button>
+          </div>
+          </section>
         </main>
 
-        <NotFoundPlug v-if="!(filteredHotels.length > 0)"
+        <NotFoundPlug v-if="(!(filteredHotels.length > 0)&&(isLoaded))"
           @clearFilter="clearFilter"
         />
 
@@ -63,19 +78,34 @@ export default {
 
   data() {
     return{
-      filteredHotels: []
+      filteredHotels: [],
+      isLoaded: false,
+
+      //pagination
+      page: 1,
+      perPage: 3,
+      pages: [],
     }
   },
 
   async created () {
     await this.$store.dispatch('getData');
     this.filteredHotels = this.$store.state.hotels;
+    setTimeout(() => {
+      this.isLoaded = true;
+    }, 1000)
   },
 
   computed: {
-    hotels () {
-      return this.$store.state.hotels;
-    },
+    displayedHotels () {
+      return this.paginate(this.filteredHotels);
+    }
+  },
+
+  watch: {
+    filteredHotels () {
+      this.setPages();
+    }
   },
 
   methods: {
@@ -137,6 +167,8 @@ export default {
         :
         this.filteredHotels;
 
+      this.setPages();
+
       window.scrollTo(0, 0);
     },
 
@@ -149,8 +181,25 @@ export default {
       this.$refs.starSelect.clearSelected();
       this.filteredHotels = this.$store.state.notFilteredHotels;
       window.scrollTo(0, 0);
+    },
+
+    setPages () {
+      this.pages = [];
+      this.page = 1;
+      let numberOfPages = Math.ceil(this.filteredHotels.length / this.perPage);
+      for (let index = 1; index <= numberOfPages; index++) {
+        this.pages.push(index);
+      }
+    },
+
+    paginate (posts) {
+      let page = this.page;
+      let perPage = this.perPage;
+      let from = (page * perPage) - perPage;
+      let to = (page * perPage);
+      return posts.slice(from, to);
     }
-  }
+  },
 }
 </script>
 
@@ -168,12 +217,21 @@ button {
   color: #3A3A3A;
 }
 
+.paginator {
+  display: block;
+}
+
+.paginator button {
+  min-width: 4rem;
+  margin: .25rem;
+  padding: 1rem;
+}
 .btn-apply {
   background-color: #6A53F5;
   color: white;
 }
 
-.btn-apply:hover, .btn-apply:active {
+.btn-apply:hover, .btn-apply:active, .paginator button:active, .paginator button:hover {
   color: var(--bs-btn-hover-color);
   background-color: #8c8cd0;
   border-color: #8c8cd0;

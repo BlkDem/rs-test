@@ -3,7 +3,7 @@
     <div class="plug-image text-center">
       <img src="../assets/images/no-items-plug.png" />
     </div>
-    <div class="plug-text text-center">
+    <div class="text-center">
       <h2>По данным параметрам ничего не найдено</h2>
       <p>Попробуйте изменить параметры фильтрации или вернуться в общий каталог</p>
     </div>
@@ -30,10 +30,11 @@ export default {
 h2 {
   font-size: 18px;
   font-weight: 700;
+  margin-bottom: 1rem;
 }
 
 p {
-  font-size: 16px;
+  font-size: 1rem;
   color: #969696;
 }
 .not-found-plug {
@@ -52,9 +53,6 @@ p {
 
 .plug-image img {
   width: 50%;
-}
-.plug-text {
-
 }
 
 .clear-filter-button {

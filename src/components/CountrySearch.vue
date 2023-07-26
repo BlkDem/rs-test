@@ -3,6 +3,8 @@
     <h4>Страна</h4>
       <div class="search-group-input" >
         <i class="bi bi-search search-icon"></i>
+
+         <!-- v-debounce -->
         <b-form-input class="search-input"
           placeholder="Поиск стран"
           v-model="searchCountry"
@@ -100,7 +102,7 @@ export default defineComponent({
 .search-icon {
   position: absolute;
   left: 1.5rem;
-  top: .75rem;
+  top: 11px;
   z-index: 2;
 }
 
