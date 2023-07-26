@@ -46,9 +46,8 @@
 
       this.$store.dispatch('getPriceRange');
 
-
       setTimeout(() => {
-        console.log('created', this.$store.state.priceRange);
+        // console.log('created', this.$store.state.priceRange);
         this.priceSelectedRange = this.$store.state.priceRange;
         this.priceMin = this.$store.state.priceRange[0] ?? 0;
         this.priceMax = this.$store.state.priceRange[1] ?? 100;
@@ -56,30 +55,16 @@
       }, 1000)
     },
 
-    mounted() {
-      // console.log(this.$store.state.priceRange);
-      this.priceSelectedRange = this.$store.state.priceRange ?? [0, 100];
-      // this.priceMax = 100;
-      // this.priceMin = this.$store.state.priceRange[0] ?? 0;
-      // console.log(this.$store.state);
-      // this.priceRange = this.$store.state.priceRange || [0, 100];
-      // setTimeout(() => {
-      //   console.log('mounted', this.$store.state.priceRange);
-      //   this.priceRange = this.$store.state.priceRange;
-      // }, 500)
-      // this.priceMin = this.$store.state.priceRange[0] ?? 0;
-      // this.priceMax = this.$store.state.priceRange[1] ?? 100;
+    methods: {
+      clearSelected() {
+        this.priceSelectedRange = this.$store.state.priceRange;
+        this.priceMin = this.priceSelectedRange[0];
+        this.priceMax = this.priceSelectedRange[1];
+      }
 
     },
 
     computed: {
-
-      priceRange() {
-        this.priceMin = this.$store.getters.priceRange[0];
-        this.priceMax = this.$store.getters.priceRange[1];
-
-        return this.$store.getters.priceRange;
-      },
 
       priceRangeMin() {
         return `от ${this.priceSelectedRange[0]} ₽`;
@@ -90,11 +75,11 @@
       },
     },
 
-    // watch: {
-    //   priceRange() {
-    //     this.$store.dispatch('setPriceRangeFilter', this.priceRange);
-    //   }
-    // }
+    watch: {
+      priceSelectedRange() {
+        this.$store.dispatch('setPriceRangeFilter', this.priceSelectedRange);
+      }
+    }
 
   }
 
@@ -112,7 +97,7 @@
   margin-bottom: 1rem;
 }
 .min-max-separator {
-  margin: .75rem;
+  margin: .5rem;
 }
 
 .price-range-max, .price-range-min {

@@ -23,7 +23,6 @@
     data() {
       return {
         selectedTypes: [],
-        // types: this.$store.state.types,
       }
     },
 
@@ -42,7 +41,9 @@
     },
 
     methods: {
-
+      clearSelected() {
+        this.selectedTypes = [];
+      }
     }
 
   }

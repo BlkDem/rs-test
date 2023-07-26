@@ -21,7 +21,7 @@
         <b-form-group v-if="countries"
           style="margin-bottom: 0!important;">
           <b-form-checkbox
-            v-for="country in countries"
+            v-for="country in selectedCountriesList"
             v-model="selectedCountries"
             :key="country"
             :value="country"
@@ -42,39 +42,50 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-    data() {
-      return {
-        searchCountry: '',
-        selectedCountries: [],
-        // countries: this.$store.state.countries,
-      }
-    },
 
-    computed: {
-      countries() {
-        return this.$store.state.countries;
-      }
-    },
-
-    watch: {
-      searchCountry() {
-        this.countries = Array.from(this.$store.state.countries).filter(
-          country => (country.toLowerCase().indexOf(this.searchCountry.toLowerCase()) >= 0)
-         )
-      },
-
-      selectedCountries() {
-        this.$store.dispatch('setCountriesFilter', this.selectedCountries);
-      }
-
-
-    },
-
-    methods: {
-
+  props: {
+    resetSelected: {
+      type: Boolean,
+      default: false
     }
+  },
 
-  });
+  data() {
+    return {
+      searchCountry: '',
+      selectedCountries: [],
+      selectedCountriesList: []
+      // countries: this.$store.state.countries,
+    }
+  },
+
+  computed: {
+    countries() {
+      this.selectedCountriesList = this.$store.state.countries;
+      return this.$store.state.countries;
+    }
+  },
+
+  watch: {
+    searchCountry() {
+      this.selectedCountriesList = Array.from(this.$store.state.countries).filter(
+        country => (country.toLowerCase().indexOf(this.searchCountry.toLowerCase()) >= 0)
+       )
+    },
+    selectedCountries() {
+      this.$store.dispatch('setCountriesFilter', this.selectedCountries);
+    },
+
+  },
+
+  methods: {
+    clearSelected() {
+      this.selectedCountries = [];
+      this.searchCountry = '';
+    }
+  }
+
+});
 </script>
 
 <style scoped lang="scss">

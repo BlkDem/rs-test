@@ -33,13 +33,13 @@
         <b-col md="8">{{ hotel?.description }}</b-col>
         <b-col md="4" class="text-end">
           <button class="booking-button" :class="{
-              'booking-button-ordered': isHotelOrdered(id)
-              }" @click="orderHotel(id)">
+              'booking-button-ordered': !isHotelOrdered()
+              }" @click="orderHotel">
             <i class="bi" :class="{
-                'bi-calendar4': !isHotelOrdered(id),
-                'bi-check': isHotelOrdered(id)
+                'bi-calendar4': !isHotelOrdered(),
+                'bi-check': isHotelOrdered()
               }"></i>
-            {{ currentButtonCaption(id) }}
+            {{ currentButtonCaption() }}
           </button>
         </b-col>
       </b-row>
@@ -71,28 +71,24 @@ export default defineComponent({
       return Ending.reviewWordEnding(num);
     },
 
-    orderHotel(id) {
-      console.log(id)
+    orderHotel() {
+      this.hotelOrdered = !this.hotelOrdered
       // this.orderHotels.
     },
 
-    isHotelOrdered(id) {
-      return true;
+    isHotelOrdered() {
+      return this.hotelOrdered;
       // this.orderHotels.
     },
 
-    currentButtonCaption(id) {
-      return 'Забронировать';
+    currentButtonCaption() {
+      return (this.hotelOrdered)? 'Забронировано' : 'Забронировать';
     }
   },
 
   data: () => ({
-    orderedHotels: undefined,
+    hotelOrdered: false,
   }),
-
-  created(){
-    this.orderedHotels = new Map([]);
-  },
 
 });
 

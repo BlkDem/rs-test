@@ -35,7 +35,9 @@
     },
 
     methods: {
-
+      clearSelected() {
+        this.reviewCount = undefined;
+      }
     }
 
   }

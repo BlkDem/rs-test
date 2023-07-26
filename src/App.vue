@@ -3,14 +3,14 @@
     <b-row>
       <b-col md="3">
         <aside>
-          <CountrySearch />
-          <TypeSelect />
-          <StarSelect />
-          <ReviewCount />
-          <PriceRange />
+          <CountrySearch ref="countrySearch"/>
+          <TypeSelect ref="typeSelect"/>
+          <StarSelect ref="starSelect"/>
+          <ReviewCount ref="reviewCount"/>
+          <PriceRange ref="priceRange"/>
           <div class="filter-panel py-4 mt-4">
-            <b-button size="lg" class="btn-apply w-100 p-2 mb-3">Применить фильтр</b-button>
-            <b-button size="lg" class="btn-cancel w-100 p-2">
+            <b-button size="lg" class="btn-apply w-100 p-2 mb-3" @click="applyFilter">Применить фильтр</b-button>
+            <b-button size="lg" class="btn-cancel w-100 p-2" @click="clearFilter">
               <i class="bi bi-x cancel-icon"></i>
               Очистить фильтр
             </b-button>
@@ -20,13 +20,18 @@
       <b-col md="9">
         <main>
           <section name="hotel-list">
-            <HotelBlock v-for="(item, key) in hotels"
+            <HotelBlock v-for="(item, key) in filteredHotels"
               :hotel="item"
               :id="key"
               :key="key"
             />
           </section>
         </main>
+
+        <NotFoundPlug v-if="!(filteredHotels.length > 0)"
+          @clearFilter="clearFilter"
+        />
+
       </b-col>
     </b-row>
   </b-container>
@@ -40,9 +45,12 @@ import StarSelect from './components/StarSelect.vue';
 import ReviewCount from './components/ReviewCount.vue';
 import PriceRange from './components/PriceRange.vue';
 import HotelBlock from './components/HotelBlock.vue';
+import NotFoundPlug from './components/NotFoundPlug.vue';
 
 export default {
+
   name: 'App',
+
   components: {
     CountrySearch,
     TypeSelect,
@@ -50,17 +58,73 @@ export default {
     ReviewCount,
     PriceRange,
     HotelBlock,
+    NotFoundPlug,
   },
 
-  async beforeCreate () {
+  data() {
+    return{
+      filteredHotels: []
+    }
+  },
+
+  async created () {
     await this.$store.dispatch('getData');
-    // this.$store.dispatch('prepareFilters');
+    this.filteredHotels = this.$store.state.hotels;
   },
 
   computed: {
     hotels () {
-        return this.$store.state.hotels;
+      return this.$store.state.hotels;
     },
+  },
+
+  methods: {
+
+    reviewCountFilter(hotels, currentFilters) {
+      return hotels.filter((el) => (el.reviews_amount >= currentFilters.reviewCount));
+    },
+
+    priceRangeFilter(hotels, currentFilters) {
+      return hotels.filter((el) => (el.min_price >= currentFilters.priceRange[0]) && (el.min_price <= currentFilters.priceRange[1]));
+    },
+
+    applyFilter() {
+
+      console.log(this.$store.state.currentFilters);
+      const currentFilters = this.$store.state.currentFilters;
+      const notFilteredHotels = this.$store.state.notFilteredHotels;
+
+      //filter for reviews
+      this.filteredHotels = (!currentFilters.reviewCount) ?
+        this.filteredHotels
+        :
+        this.reviewCountFilter(notFilteredHotels, currentFilters);
+
+      //filter for price
+      this.filteredHotels = (currentFilters.priceRange == [])?
+        this.filteredHotels
+        :
+        this.priceRangeFilter(this.filteredHotels, currentFilters);
+
+      //filter for stars
+      // this.filteredHotels = (currentFilters.priceRange == [])?
+      //   this.filteredHotels
+      //   :
+      //   this.priceRangeFilter(this.filteredHotels, currentFilters);
+
+      window.scrollTo(0, 0);
+    },
+
+    clearFilter() {
+      this.$store.dispatch('clearFilter');
+      this.$refs.countrySearch.clearSelected();
+      this.$refs.priceRange.clearSelected();
+      this.$refs.reviewCount.clearSelected();
+      this.$refs.typeSelect.clearSelected();
+      this.$refs.starSelect.clearSelected();
+      this.filteredHotels = this.$store.state.notFilteredHotels;
+      window.scrollTo(0, 0);
+    }
   }
 }
 </script>
@@ -83,8 +147,15 @@ button {
   background-color: #6A53F5;
   color: white;
 }
+
+.btn-apply:hover, .btn-apply:active {
+  color: var(--bs-btn-hover-color);
+  background-color: #8c8cd0;
+  border-color: #8c8cd0;
+}
 .btn-cancel {
   background-color: transparent;
   color: #333;
 }
+
 </style>

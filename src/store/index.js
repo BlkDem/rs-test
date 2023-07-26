@@ -12,11 +12,12 @@ export default createStore({
       priceRange: [],
     },
 
+    notFilteredHotels: [],
     hotels: [],
     countries: [],
     types: [],
-
     priceRange: [],
+
   },
 
   getters: {
@@ -28,8 +29,21 @@ export default createStore({
   },
 
   mutations: {
+
+    CLEAR_FILTERS (state) {
+      state.currentFilters.countries = [];
+      state.currentFilters.stars = [];
+      state.currentFilters.types = [];
+      state.currentFilters.priceRange = [];
+      state.currentFilters.reviewCount = 0;
+    },
+
     SET_HOTELS (state, hotels) {
       state.hotels = hotels;
+    },
+
+    SET_NOT_FILTERED_HOTELS (state, hotels) {
+      state.notFilteredHotels = hotels;
     },
 
     SET_COUNTRIES (state, countries) {
@@ -42,7 +56,7 @@ export default createStore({
 
     SET_PRICE_RANGE (state, priceRange) {
       state.priceRange = priceRange;
-      console.log('store: ', priceRange);
+      // console.log('store: ', priceRange);
     },
 
     SET_COUNTRY_FILTER (state, countries) {
@@ -72,6 +86,7 @@ export default createStore({
       const response = await axios.get('/hotels.json');
       const hotels = response?.data?.hotels;
       context.commit('SET_HOTELS', hotels);
+      context.commit('SET_NOT_FILTERED_HOTELS', hotels);
 
       const countries = hotels.map(item => item.country);
       const countryMap = new Set(countries)
@@ -94,27 +109,11 @@ export default createStore({
       const priceRangeMax = priceArray.at(-1);
 
       context.commit('SET_PRICE_RANGE', [priceRangeMin, priceRangeMax]);
-      context.state.priceRange = [priceRangeMin, priceRangeMax];
 
     },
 
-    prepareFilters(context, hotels) {
-
-      const countries = hotels.map(item => item.country);
-      const countryMap = new Set(countries)
-      context.commit('SET_COUNTRIES', countryMap);
-
-      const types = context.state.hotels.map(item => item.type);
-      context.state.types = new Set(types)
-
-      const stars = context.state.hotels.map(item => item.stars);
-      context.state.stars = new Set(stars)
-
-      const priceArray = context.state.hotels.map(item => Math.ceil(item.min_price)).sort();
-      const priceRangeMin = priceArray[0];
-      const priceRangeMax = priceArray.at(-1);
-      context.state.priceRange = [priceRangeMin, priceRangeMax];
-
+    clearFilter(context) {
+      context.commit('CLEAR_FILTERS');
     },
 
     setCountriesFilter(context, countries) {

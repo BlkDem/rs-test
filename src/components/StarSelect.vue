@@ -22,6 +22,7 @@
 </template>
 
 <script>
+
   export default {
     data() {
       return {
@@ -39,10 +40,12 @@
     },
 
     methods: {
-
+      clearSelected() {
+        this.selectedStars = [];
+      }
     }
 
-  }
+}
 </script>
 
 <style scoped lang="scss">
