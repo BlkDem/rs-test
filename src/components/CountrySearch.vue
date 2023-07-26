@@ -16,7 +16,7 @@
 
       <div class="serach-checkbox-list">
 
-        <p class="no-items-plug" v-if="countries==0">
+        <p class="no-items-plug" v-if="selectedCountriesList.length === 0">
           К сожалению, по Вашему запросу ничего не найдено :(
         </p>
 
