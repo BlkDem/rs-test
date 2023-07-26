@@ -103,15 +103,6 @@ export default createStore({
 
     },
 
-    getPriceRange(context) {
-      const priceArray = context.state.hotels.map(item => Math.ceil(item.min_price)).sort();
-      const priceRangeMin = priceArray[0];
-      const priceRangeMax = priceArray.at(-1);
-
-      context.commit('SET_PRICE_RANGE', [priceRangeMin, priceRangeMax]);
-
-    },
-
     clearFilter(context) {
       context.commit('CLEAR_FILTERS');
     },
