@@ -81,27 +81,22 @@ export default {
   methods: {
 
     reviewCountFilter(hotels, currentFilters) {
-      console.log('reviews filter')
       return hotels.filter((el) => (el.reviews_amount >= currentFilters.reviewCount));
     },
 
     priceRangeFilter(hotels, currentFilters) {
-      console.log('price range filter')
       return hotels.filter((el) => (el.min_price >= currentFilters.priceRange[0]) && (el.min_price <= currentFilters.priceRange[1]));
     },
 
     starsFilter(hotels, currentFilters) {
-      console.log('stars filter')
       return hotels.filter((el) => (currentFilters.stars.includes(el.stars)));
     },
 
     typesFilter(hotels, currentFilters) {
-      console.log('types filter')
       return hotels.filter((el) => (currentFilters.types.includes(el.type)));
     },
 
     countriesFilter(hotels, currentFilters) {
-      console.log('countries filter')
       return hotels.filter((el) => (currentFilters.countries.includes(el.country)));
     },
 
@@ -112,8 +107,6 @@ export default {
       const notFilteredHotels = this.$store.state.notFilteredHotels;
 
       this.filteredHotels = notFilteredHotels;
-
-      // console.log(currentFilters)
 
       //filter for reviews
       this.filteredHotels = (!currentFilters.reviewCount) ?
